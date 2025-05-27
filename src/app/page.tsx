@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './page.module.css';
+type bomb = 0 | 1;
+
 const calcTotalPoint = (arr: number[], counter: number) => {
   let result = 0;
   for (const i of arr) {
@@ -48,20 +50,20 @@ export default function Home() {
   };
   const totalPoint = calcTotalPoint(samplePoints, sampleCounter);
   console.log(totalPoint);
-  const [board, setboard] = [
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-  ];
+  const boardHight = 9;
+  const boardWidth = 9;
+  const numBomb = 10;
+  const [bombMap, setBombMap] = useState<bomb[][]>([]);
+  useEffect(() => {
+    const newMap: bomb[][] = Array.from({ length: boardHight }, () =>
+      new Array<bomb>(boardWidth).fill(0),
+    );
+  });
 
   return (
     <div className={styles.container}>
-      <div className={styles.background}>
-        <div className={styles.cell} style={{ backgroundPosition: `${-30 * sampleCounter}px` }} />
-      </div>
+      <div className={styles.backboard} />
+      <div className={styles.cell} style={{ backgroundPosition: `${-30 * sampleCounter}px` }} />
     </div>
   );
 }
