@@ -62,8 +62,10 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.backboard} />
-      <div className={styles.cell} style={{ backgroundPosition: `${-30 * sampleCounter}px` }} />
+      <div className={styles.board}>
+        {bombMap.map((row,y)=>boardHight)}
+      </div>
     </div>
   );
 }
+
