@@ -1,3 +1,5 @@
+/* page.module.css の中 */
+
 .container {
   display: flex;
   flex-direction: column;
@@ -8,17 +10,37 @@
   padding: 0 0.5rem;
 }
 
-.backBoard {
+.board {
   display: flex;
   flex-wrap: wrap;
-  width: 300px;
-  height: 300px;
+  width: 270px; /* 30px x 9マス = 270px に調整 */
+  height: 270px; /* 30px x 9マス = 270px に調整 */
   background-color: #888;
+  border: 2px solid #333; /* ボード全体に枠線を追加すると分かりやすい */
 }
 
+/* ★★★ ここを追加/修正してください ★★★ */
+.row {
+  display: flex; /* これが重要！マスを横並びにする */
+
+  /* width: 100%; */
+
+  /* 親の .board の幅に合わせる */
+}
+
+/* ★★★ ここまで ★★★ */
+
 .cell {
+  display: flex; /* マス内の数字を中央寄せするため */
+  align-items: center; /* マス内の数字を中央寄せするため */
+  justify-content: center; /* マス内の数字を中央寄せするため */
   width: 30px;
   height: 30px;
-  background: url('~/src/assets/images/icons.png') no-repeat;
+  font-weight: bold; /* 数字を見やすくするため */
+  color: #333; /* 数字の色 */
   border: 1px solid #000;
+
+  /* background: url('~/src/assets/images/icons.png') no-repeat; */
+
+  /* 一旦コメントアウトして、色表示の確認を優先 */
 }

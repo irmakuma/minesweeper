@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 type bomb = 0 | 1;
 
-const calcTotalPoint = (arr: number[], counter: number) => {
-  let result = 0;
-  for (const i of arr) {
-    result += i;
-  }
-  return result + counter;
-};
+// const calcTotalPoint = (arr: number[], counter: number) => {
+//   let result = 0;
+//   for (const i of arr) {
+//     result += i;
+//   }
+//   return result + counter;
+// };
 // const down = (n: number) => {
 //   let result = n;
 //   if (result >= 0) {
@@ -37,35 +37,52 @@ const calcTotalPoint = (arr: number[], counter: number) => {
 //   return ((n + s) * (s - n + 1)) / 2;
 // };
 // console.log(sum3(4, 10));
+
+const boardHight = 9;
+const boardWidth = 9;
+const numBomb = 10;
 export default function Home() {
-  const [samplePoints, setSamplePoints] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-  console.log(samplePoints);
-  const [sampleCounter, setSampleCounter] = useState(0);
-  console.log(sampleCounter);
-  const clickHamdler = () => {
-    const newSamplePoints = structuredClone(samplePoints);
-    newSamplePoints[sampleCounter] += 1;
-    setSamplePoints(newSamplePoints);
-    setSampleCounter((1 + sampleCounter) % 14);
-  };
-  const totalPoint = calcTotalPoint(samplePoints, sampleCounter);
-  console.log(totalPoint);
-  const boardHight = 9;
-  const boardWidth = 9;
-  const numBomb = 10;
+  // const [samplePoints, setSamplePoints] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  // console.log(samplePoints);
+  // const [sampleCounter, setSampleCounter] = useState(0);
+  // console.log(sampleCounter);
+  // const clickHamdler = () => {
+  //   const newSamplePoints = structuredClone(samplePoints);
+  //   newSamplePoints[sampleCounter] += 1;
+  //   setSamplePoints(newSamplePoints);
+  //   setSampleCounter((1 + sampleCounter) % 14);
+  // };
+  // const totalPoint = calcTotalPoint(samplePoints, sampleCounter);
+  // console.log(totalPoint);
   const [bombMap, setBombMap] = useState<bomb[][]>([]);
   useEffect(() => {
     const newMap: bomb[][] = Array.from({ length: boardHight }, () =>
       new Array<bomb>(boardWidth).fill(0),
     );
-  });
+    let count = 0;
+    while (count <= numBomb) {
+      Math.floor(Math.random() * 9);
+      if (newMap !== 1) {
+        setBombMap(newMap);
+        count = +1;
+      }
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.board}>
-        {bombMap.map((row,y)=>boardHight)}
+        {bombMap.map((row, y) => (
+          <div key={y} className={styles.row}>
+            {row.map((cell, x) => (
+              <div key={`${y}-${x}`} className={styles.cell}>
+                {cell} {}
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
+      {}
     </div>
   );
 }
-
