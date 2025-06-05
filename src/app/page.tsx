@@ -54,20 +54,33 @@ export default function Home() {
   // };
   // const totalPoint = calcTotalPoint(samplePoints, sampleCounter);
   // console.log(totalPoint);
+
+  const [revealedMap, setrevealedMap] = useState<boolean[][]>([]);
   const [bombMap, setBombMap] = useState<bomb[][]>([]);
   useEffect(() => {
     const newMap: bomb[][] = Array.from({ length: boardHight }, () =>
       new Array<bomb>(boardWidth).fill(0),
     );
+    const newRevealedMap: boolean[][] = Array.from({ length: boardHight }, () =>
+      new Array<boolean>(boardWidth).fill(false),
+    );
+    setrevealedMap(newRevealedMap);
     let count = 0;
-    while (count <= numBomb) {
-      Math.floor(Math.random() * 9);
-      if (newMap !== 1) {
-        setBombMap(newMap);
-        count = +1;
+    while (count < numBomb) {
+      const y = Math.floor(Math.random() * boardHight);
+      const x = Math.floor(Math.random() * boardWidth);
+      if (newMap[y][x] === 0) {
+        newMap[y][x] = 1;
+        count++;
       }
     }
+    setBombMap(newMap);
   }, []);
+  const handleCellClick = (y: number, x: number) => {
+    const newRevealedMap = revealedMap.map((row) => [...row]);
+    newRevealedMap[y][x] = true;
+    setrevealedMap(newRevealedMap);
+  };
 
   return (
     <div className={styles.container}>
@@ -75,14 +88,24 @@ export default function Home() {
         {bombMap.map((row, y) => (
           <div key={y} className={styles.row}>
             {row.map((cell, x) => (
-              <div key={`${y}-${x}`} className={styles.cell}>
-                {cell} {}
+              <div
+                key={`${y}-${x}`}
+                className={styles.cell}
+                style={
+                  revealedMap[y][x] === true
+                    ? { backgroundColor: 'white' }
+                    : cell === 1
+                      ? { backgroundColor: 'red' }
+                      : { backgroundColor: 'lightgray' }
+                }
+                onClick={() => handleCellClick(y, x)}
+              >
+                {revealedMap[y][x] === true ? cell : ''}
               </div>
             ))}
           </div>
         ))}
       </div>
-      {}
     </div>
   );
 }
